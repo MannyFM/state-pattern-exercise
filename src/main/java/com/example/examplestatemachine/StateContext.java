@@ -1,27 +1,30 @@
 package com.example.examplestatemachine;
 
-public class StateContext extends State {
-    private char firstAction = 0;
+public class StateContext {
+    private State state;
+    protected char firstAction = 0;
 
     StateContext() {
-        this.accept = false;
+        this.setState(new RejectState(this));
     }
 
-    @Override
     public void actionA() {
-        if (firstAction == 0) {
+        if (firstAction == 0)
             firstAction = 'A';
-        }
-
-        this.accept = (firstAction == 'A');
+        state.actionA();
     }
 
-    @Override
     public void actionB() {
-        if (firstAction == 0) {
+        if (firstAction == 0)
             firstAction = 'B';
-        }
+        state.actionB();
+    }
 
-        this.accept = (firstAction == 'B');
+    public boolean isAccept() {
+        return state.isAccept();
+    }
+
+    protected void setState(State st) {
+        this.state = st;
     }
 }
